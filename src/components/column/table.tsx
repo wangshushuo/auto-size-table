@@ -1,4 +1,3 @@
-import { IDataItem } from "../base-table.tsx";
 import "./index.css";
 import {
   Column,
@@ -37,7 +36,7 @@ const getCommonPinningStyles = <T,>(column: Column<T>): CSSProperties => {
 export interface IProps<T> {
   w: number;
   h: number;
-  data: IDataItem[];
+  data: T[];
   columns: ColumnDef<T>[];
 }
 
