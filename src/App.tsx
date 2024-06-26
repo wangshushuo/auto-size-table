@@ -1,16 +1,7 @@
 import "./App.css";
-import TablePinColumn from "./components/column/table.tsx";
 import DataGrid from "@/components/data-grid.tsx";
-import { useEffect, useState } from "react";
 
 function App() {
-  const [data, setData] = useState([]);
-  useEffect(() => {
-    fetch("https://667abfb3bd627f0dcc905535.mockapi.io/api/v1/user")
-      .then((response) => response.json())
-      .then((json) => setData(json));
-  }, []);
-
   return (
     <div className={"flex min-h-screen"}>
       <aside className={"w-44 border-r border-solid"}>
@@ -24,8 +15,14 @@ function App() {
           </ul>
         </nav>
       </aside>
-      <div className={"grow"}>
-        <DataGrid data={data} />
+      <div className={"flex grow flex-col"}>
+        <div>
+          <h1 className={"text-4xl"}>page 1</h1>
+          <p className={"text-xl"}>page description</p>
+        </div>
+        <div className={"grow"}>
+          <DataGrid />
+        </div>
       </div>
     </div>
   );

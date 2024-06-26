@@ -1,6 +1,5 @@
 import { IDataItem } from "../base-table.tsx";
 import "./index.css";
-import { makeData, Person } from "./makeData";
 import {
   Column,
   ColumnDef,
@@ -8,12 +7,12 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import React, { CSSProperties } from "react";
+import { CSSProperties } from "react";
 
 //These are the important styles to make sticky column pinning work!
 //Apply styles like this using your CSS strategy of choice with this kind of logic to head cells, data cells, footer cells, etc.
 //View the index.css file for more needed styles such as border-collapse: separate
-const getCommonPinningStyles = (column: Column<Person>): CSSProperties => {
+const getCommonPinningStyles = <T,>(column: Column<T>): CSSProperties => {
   const isPinned = column.getIsPinned();
   const isLastLeftPinnedColumn =
     isPinned === "left" && column.getIsLastColumn("left");
@@ -35,78 +34,32 @@ const getCommonPinningStyles = (column: Column<Person>): CSSProperties => {
   };
 };
 
-const defaultColumns: ColumnDef<Person>[] = [
-  {
-    accessorKey: "firstName",
-    id: "firstName",
-    header: "First Name",
-    cell: (info) => info.getValue(),
-    footer: (props) => props.column.id,
-    size: 180,
-  },
-  {
-    accessorFn: (row) => row.lastName,
-    id: "lastName",
-    cell: (info) => info.getValue(),
-    header: () => <span>Last Name</span>,
-    footer: (props) => props.column.id,
-    size: 888,
-  },
-  {
-    accessorKey: "age",
-    id: "age",
-    header: "Age",
-    footer: (props) => props.column.id,
-    size: 888,
-  },
-  {
-    accessorKey: "visits",
-    id: "visits",
-    header: "Visits",
-    footer: (props) => props.column.id,
-    size: 888,
-  },
-  {
-    accessorKey: "status",
-    id: "status",
-    header: "Status",
-    footer: (props) => props.column.id,
-    size: 180,
-  },
-  {
-    accessorKey: "progress",
-    id: "progress",
-    header: "Profile Progress",
-    footer: (props) => props.column.id,
-    size: 180,
-  },
-];
-
-export type IProps = {
+export interface IProps<T> {
   w: number;
   h: number;
   data: IDataItem[];
-  total: number;
-};
+  columns: ColumnDef<T>[];
+}
 
-export default function TablePinColumn(props: IProps) {
-  const { w, h } = props;
-  const [data, setData] = React.useState(() => makeData(300));
-  const [columns] = React.useState(() => [...defaultColumns]);
+export default function TablePinColumn<T>(props: IProps<T>) {
+  const { w, h, columns, data } = props;
+
+  const firstColumnAccessorKey = columns[0].id;
+  const lastColumnAccessorKey = columns[columns.length - 1].id;
 
   const table = useReactTable({
     data,
     columns,
     initialState: {
       columnPinning: {
-        left: ["firstName"],
-        right: ["progress"],
+        left: [firstColumnAccessorKey || ""],
+        right: [lastColumnAccessorKey || ""],
       },
     },
     getCoreRowModel: getCoreRowModel(),
-    debugTable: true,
-    debugHeaders: true,
-    debugColumns: true,
+    // debugTable: true,
+    // debugHeaders: true,
+    // debugColumns: true,
     columnResizeMode: "onChange",
   });
 
@@ -114,7 +67,7 @@ export default function TablePinColumn(props: IProps) {
     <>
       <div
         className="table-container relative overflow-auto"
-        style={{ height: 500, width: w, overflow: "auto" }}
+        style={{ height: h, width: w, overflow: "auto" }}
       >
         <table
           style={{
@@ -133,7 +86,7 @@ export default function TablePinColumn(props: IProps) {
                       key={header.id}
                       colSpan={header.colSpan}
                       //IMPORTANT: This is where the magic happens!
-                      style={{ ...getCommonPinningStyles(column) }}
+                      style={{ ...getCommonPinningStyles<T>(column) }}
                     >
                       <div className="whitespace-nowrap">
                         {header.isPlaceholder
@@ -170,7 +123,7 @@ export default function TablePinColumn(props: IProps) {
                     <td
                       key={cell.id}
                       //IMPORTANT: This is where the magic happens!
-                      style={{ ...getCommonPinningStyles(column) }}
+                      style={{ ...getCommonPinningStyles<T>(column) }}
                     >
                       {flexRender(
                         cell.column.columnDef.cell,
