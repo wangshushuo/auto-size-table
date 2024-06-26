@@ -52,7 +52,7 @@ const defaultColumns: ColumnDef<Person>[] = [
 ];
 
 export default function DataGrid() {
-  const [w, setW] = useState(600);
+  const [w, setW] = useState(800);
   const [h, setH] = useState(500);
   const tableContainerRef = useRef<HTMLDivElement>(null);
 

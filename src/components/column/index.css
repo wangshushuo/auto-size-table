@@ -3,13 +3,13 @@ html {
     font-size: 14px;
 }
 
-.table-container {
-    border: 1px solid lightgray;
-    overflow-x: scroll;
-    width: 100%;
-    max-width: 960px;
-    position: relative;
-}
+/*.table-container {*/
+/*    border: 1px solid lightgray;*/
+/*    overflow-x: scroll;*/
+/*    width: 100%;*/
+/*    max-width: 960px;*/
+/*    position: relative;*/
+/*}*/
 
 table {
     /* box-shadow and borders will not work with positon: sticky otherwise */
