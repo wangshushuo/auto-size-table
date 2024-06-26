@@ -1,5 +1,4 @@
-import TablePinRow from "./base-table.tsx";
-import TablePinColumn from "./column/table.tsx";
+import TablePinColumn from "@/components/column/table.tsx";
 import throttle from "lodash/throttle";
 import { useEffect, useRef, useState } from "react";
 
@@ -10,10 +9,10 @@ export default function DataGrid(props) {
 
   const updateTableScroll = throttle(() => {
     if (tableContainerRef.current) {
-      // const containerWidth = tableContainerRef.current.offsetWidth;
-      // const containerHeight = tableContainerRef.current.offsetHeight;
-      // setW(containerWidth);
-      // setH(containerHeight);
+      const containerWidth = tableContainerRef.current.offsetWidth;
+      const containerHeight = tableContainerRef.current.offsetHeight;
+      setW(containerWidth);
+      setH(containerHeight);
     }
   }, 200);
 
@@ -30,7 +29,7 @@ export default function DataGrid(props) {
       className="relative h-full w-full overflow-hidden rounded-md bg-white"
       ref={tableContainerRef}
     >
-      <span className={"absolute left-0 top-0 z-30"}>
+      <span className={"absolute left-0 top-0 z-50"}>
         w:{w} h:{h}
       </span>
       <TablePinColumn w={w} h={h} data={props.data} total={props.data.length} />

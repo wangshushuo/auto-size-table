@@ -111,13 +111,14 @@ export default function TablePinColumn(props: IProps) {
   });
 
   return (
-    <div className="p-2">
+    <>
       <div
         className="table-container relative overflow-auto"
-        style={{ height: 500, width: 500, overflow: "auto" }}
+        style={{ height: 500, width: w, overflow: "auto" }}
       >
         <table
           style={{
+            height: "calc(100% - 70px)",
             width: table.getTotalSize(),
           }}
         >
@@ -183,6 +184,6 @@ export default function TablePinColumn(props: IProps) {
           </tbody>
         </table>
       </div>
-    </div>
+    </>
   );
 }

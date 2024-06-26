@@ -25,8 +25,7 @@ function App() {
         </nav>
       </aside>
       <div className={"grow"}>
-        <TablePinColumn />
-        {/*<DataGrid data={data} />*/}
+        <DataGrid data={data} />
       </div>
     </div>
   );
